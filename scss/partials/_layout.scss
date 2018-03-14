@@ -1,12 +1,13 @@
 html, body {
 	height: 100%;
 	margin: 0;
+  overflow: hidden;
 }
 
 .container-fluid {
-	width: 100%;
-	padding-right: 15px;
-	padding-left: 15px;
+	width: 98%;
+	padding-right: 1%;
+	padding-left: 1%;
 	margin-right: auto;
 	margin-left: auto;
 }
@@ -14,6 +15,14 @@ html, body {
 .content {
 	opacity: 1;
 	transition: 1s;
+
+	.home-button {
+		position: absolute;
+		bottom: 50px;
+		right: 50px;
+		border: 2px solid #231f20;
+		border-radius: 50%;
+	}
 }
 
 .align-self-center {
@@ -64,64 +73,4 @@ html, body {
   -ms-flex: 0 0 8.333333%;
   flex: 0 0 8.333333%;
   max-width: 8.333333%;
-}
-
-.stories-container {
-	width: 100%;
-	height: 80vh;
-
-	h1 {
-		text-transform: uppercase;
-	}
-}
-
-.hover-box {
-	width: 500px;
-	height: 250px;
-	border: 1px solid black;
-}
-
-.fade-out {
-	opacity: 0;
-}
-
-.fade-in {
-	opacity: 0;
-}
-
-.arrow {
-	position: absolute;
-	top: 50%;
-	width: 5vmin;
-	height: 5vmin;
-	background: transparent;
-	border-top: 0.5vmin solid black;
-	border-right: 0.5vmin solid black;
-	box-shadow: 0 0 0 black;
-	transition: all 200ms ease;
-	
-	&.left {
-		left: 2em;
-		transform: translate3d(0,-50%,0) rotate(-135deg);
-	}
-
-	&.right {
-		right: 2em;
-		transform: translate3d(0,-50%,0) rotate(45deg);
-	}
-	
-	&:hover {
-		border-color: orange;
-		box-shadow: 0.5vmin -0.5vmin 0 white;
-	}
-	
-	&:before { // for better hit area
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-40%,-60%) rotate(45deg);
-		width: 200%;
-		height: 200%;
-	}
 }

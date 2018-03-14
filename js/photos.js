@@ -6,11 +6,11 @@
 
 		content.removeClass('fade-in');
 
-		$('.commercials').on('click', function() {
+		$('.home-button').on('click', function() {
 			content.addClass('fade-out');
 			setTimeout(function() {
-				
+				window.location.href = './index.html';
 			}, 1200);
 		});
-	});
+	})
 }(jQuery));

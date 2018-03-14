@@ -1,0 +1,34 @@
+@import 'partials/layout';
+@import 'partials/arrows';
+
+.stories-container, .commercials-container {
+	width: 100%;
+	height: 80vh;
+
+	h1 {
+		text-transform: uppercase;
+	}
+}
+
+.commercials-container {
+	.video-js {
+		.vjs-big-play-button {
+			top: 67.5px;
+			left: 130px;
+		}
+	}
+}
+
+.hover-box {
+	width: 500px;
+	height: 250px;
+	border: 1px solid black;
+}
+
+.fade-out {
+	opacity: 0;
+}
+
+.fade-in {
+	opacity: 0;
+}
