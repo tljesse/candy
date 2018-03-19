@@ -3,14 +3,7 @@
 
 	$(document).ready(function() {
 		var content = $('.content');
-
-		var stories = [
-			{
-				'caption': 'story',
-				'video': 'url',
-				'thumb': 'url'
-			}
-		];
+		var page = 0;
 
 		content.removeClass('fade-in');
 
@@ -21,8 +14,165 @@
 			}, 1200);
 		});
 
-		for (var i = 0; i < stories.length; i++) {
-			$('.video-' + i + ' h3').text(stories[i].caption);
-		}
+		loadVideos(page);
+
+		$('.arrow.right').on('click', function(e) {
+			$('.inner-content').addClass('fade-out');
+			page = (page < stories.length/6 - 1) ? page+1 : 0;
+			
+			setTimeout(function() {
+				loadVideos(page);
+			}, 1000);
+			setTimeout(function() {
+				$('.inner-content').removeClass('fade-out');
+			}, 1500);
+		});
+
+		$('.arrow.left').on('click', function(e) {
+			$('.inner-content').addClass('fade-out');
+			page = (page > 0) ? page-1 : stories.length/6 - 1;
+
+			setTimeout(function() {
+				loadVideos(page);
+			}, 1000);
+			setTimeout(function() {
+				$('.inner-content').removeClass('fade-out');
+			}, 1500);
+		});
 	});
+
+	var stories = [
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		// Page two stories
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '',
+			'timecode': 12
+		},
+	];
+
+	function loadVideos(page) {
+		for (var i = 0; i < 6; i++) { 
+			var index = page * 6 + i;
+			$('.video-' + i).css('display', 'flex')
+			if (stories[index].caption == '')
+				$('.video-' + i).css('display', 'none');
+			else {
+				var video = $('#video-' + i);
+				//video.attr('poster', 'assets/' + stories[index].thumb);
+				$('#video-' + i + ' source').attr('src', 'stories/' + stories[index].video + '#t=' + stories[index].timecode);
+				//video[0].load();
+				$('.video-' + i + ' h3').text(stories[index].caption);
+
+				video.on('click', function(e) {
+					var vid = video[0];
+					enterFullscreen(vid);
+				});
+
+				$(document).on('click', function(e) {
+					var vid = video[0];
+					exitFullscreen(vid);
+				});
+			}
+		}
+	}
+
+	function enterFullscreen(videoElement) {
+    if (!document.mozFullScreen && !document.webkitFullScreen) {
+	  	videoElement.play();
+	    if (videoElement.requestFullscreen){
+	    	videoElement.requestFullscreen()
+	    } else if (videoElement.mozRequestFullScreen) {
+	      videoElement.mozRequestFullScreen();
+	    } else if (videoElement.webkitRequestFullscreen) {
+	      videoElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+	    }
+	  }
+  }
+
+	function exitFullscreen(videoElement) {
+    var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+        (document.msFullscreenElement && document.msFullscreenElement !== null);
+
+    if (isInFullScreen){
+    	videoElement.pause();
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+	}
 }(jQuery));

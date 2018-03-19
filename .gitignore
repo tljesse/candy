@@ -1,5 +1,10 @@
 /bootstrap
 /commercials
+/stories
+/photos
+/content-arrays
 
 *.xml
 *.bwc
+*.brs
+*.zip

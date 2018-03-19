@@ -3,16 +3,7 @@
 
 	$(document).ready(function() {
 		var content = $('.content');
-		var player = $('#commercial-2_html5_api');
-		var commercial3 = $('#commercial-3');
-
-		var commercials = [
-			{
-				'caption': '1958',
-				'video': 'commercials/1958 - Homeowners Tent_60 [QNAM0000125].mp4',
-				'thumb': '350x180.png' 
-			}
-		];
+		var page = 0;
 
 		content.removeClass('fade-in');
 
@@ -23,29 +14,166 @@
 			}, 1200);
 		});
 
-		player.on('click', function(e) {
-			var vid = player[0];
-			vid.requestFullscreen();
+		loadVideos(page);
+
+		$('.arrow.right').on('click', function(e) {
+			$('.inner-content').addClass('fade-out');
+			page = (page < commercials.length/12 - 1) ? page+1 : 0;
+			
+			setTimeout(function() {
+				loadVideos(page);
+			}, 1000);
+			setTimeout(function() {
+				$('.inner-content').removeClass('fade-out');
+			}, 1500);
 		});
 
-		for (var i = 0; i < commercials.length; i++) {
-			$('#video-' + i + ' source').setAttribute('src', 'commercials/' + commercials[i].video);
-			$('.video-' + i + ' h3').text(commercials[i].caption);
-		}
+		$('.arrow.left').on('click', function(e) {
+			$('.inner-content').addClass('fade-out');
+			page = (page > 0) ? page-1 : commercials.length/12 - 1;
 
-
-		var video = $("#video");
-		video.on('click', function(e){
-	    var vid = video[0];
-	    vid.play();
-	    if (vid.requestFullscreen) {
-	      vid.requestFullscreen();
-	    } else if (vid.mozRequestFullScreen) {
-	      vid.mozRequestFullScreen();
-	    } else if (vid.webkitRequestFullscreen) {
-	      vid.webkitRequestFullscreen();
-	    }
+			setTimeout(function() {
+				loadVideos(page);
+			}, 1000);
+			setTimeout(function() {
+				$('.inner-content').removeClass('fade-out');
+			}, 1500);
 		});
 		
 	});
+
+	var commercials = [
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+		{
+			'caption': '',
+			'video': '',
+			'thumb': '' ,
+			'timecode': 12
+		},
+	];
+
+	function loadVideos(page) {
+		for (var i = 0; i < 12; i++) { 
+			var index = page * 12 + i;
+			index = 0;
+			$('.video-' + i).css('display', 'flex')
+			if (commercials[index].caption == '')
+				$('.video-' + i).css('display', 'none');
+			else {
+				var video = $('#video-' + i);
+				//video.attr('poster', 'assets/' + commercials[index].thumb);
+				$('#video-' + i + ' source').attr('src', 'commercials/' + commercials[index].video + '#t=' + commercials[index].timecode);
+				video[0].load();
+				$('.video-' + i + ' h3').text(commercials[index].caption);
+
+				video.on('click', function(e) {
+					var vid = video[0];
+					enterFullscreen(vid);
+				});
+
+				$(document).on('click', function(e) {
+					var vid = video[0];
+					fullscreen(vid);
+				})
+			}
+		}
+	}
+
+	function enterFullscreen(videoElement) {
+    if (!document.mozFullScreen && !document.webkitFullScreen) {
+	  	videoElement.play();
+	    if (videoElement.requestFullscreen){
+	    	videoElement.requestFullscreen()
+	    } else if (videoElement.mozRequestFullScreen) {
+	      videoElement.mozRequestFullScreen();
+	    } else if (videoElement.webkitRequestFullscreen) {
+	      videoElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+	    }
+	  }
+  }
+
+  function exitFullscreen(videoElement) {
+    var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+        (document.msFullscreenElement && document.msFullscreenElement !== null);
+
+    if (isInFullScreen){
+    	videoElement.pause();
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    }
+	}
 }(jQuery));
