@@ -18,7 +18,7 @@
 
 		$('.arrow.right').on('click', function(e) {
 			$('.inner-content').addClass('fade-out');
-			page = (page < commercials.length/12 - 1) ? page+1 : 0;
+			page = (page < commercials.length/6 - 1) ? page+1 : 0;
 			
 			setTimeout(function() {
 				loadVideos(page);
@@ -30,7 +30,7 @@
 
 		$('.arrow.left').on('click', function(e) {
 			$('.inner-content').addClass('fade-out');
-			page = (page > 0) ? page-1 : commercials.length/12 - 1;
+			page = (page > 0) ? page-1 : commercials.length/6 - 1;
 
 			setTimeout(function() {
 				loadVideos(page);
@@ -43,43 +43,7 @@
 	});
 
 	var commercials = [
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '' ,
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '' ,
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '' ,
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '' ,
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '' ,
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '' ,
-			'timecode': 12
-		},
-		{
+			{
 			'caption': '',
 			'video': '',
 			'thumb': '' ,
@@ -118,27 +82,26 @@
 	];
 
 	function loadVideos(page) {
-		for (var i = 0; i < 12; i++) { 
-			var index = page * 12 + i;
-			index = 0;
+		for (var i = 0; i < 6; i++) { 
+			var index = page * 6 + i;
 			$('.video-' + i).css('display', 'flex')
 			if (commercials[index].caption == '')
 				$('.video-' + i).css('display', 'none');
 			else {
 				var video = $('#video-' + i);
 				//video.attr('poster', 'assets/' + commercials[index].thumb);
-				$('#video-' + i + ' source').attr('src', 'commercials/' + commercials[index].video + '#t=' + commercials[index].timecode);
+				$('#video-' + i + ' source').attr('src', 'commercials/' + commercials[index].video + '.mp4');
+				$('#video-' + i).attr('poster', 'assets/commercials/' + commercials[index].video + '.jpg');
 				video[0].load();
 				$('.video-' + i + ' h3').text(commercials[index].caption);
 
 				video.on('click', function(e) {
-					var vid = video[0];
+					var vid = $(this)[0];
 					enterFullscreen(vid);
 				});
 
 				$(document).on('click', function(e) {
-					var vid = video[0];
-					fullscreen(vid);
+					exitFullscreen();
 				})
 			}
 		}
@@ -157,14 +120,19 @@
 	  }
   }
 
-  function exitFullscreen(videoElement) {
+  function exitFullscreen() {
     var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
         (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
         (document.msFullscreenElement && document.msFullscreenElement !== null);
 
     if (isInFullScreen){
-    	videoElement.pause();
+    	$('video').each(function(index) {
+    		$(this).get(0).pause();
+    		$('source', this).attr('src', 'commercials/' + commercials[index].video + '.mp4');
+				$(this).attr('poster', 'assets/commercials/' + commercials[index].video + '.jpg');
+				$(this).get(0).load();
+    	});
       if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document.webkitExitFullscreen) {

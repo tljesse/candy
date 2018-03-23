@@ -42,77 +42,40 @@
 	});
 
 	var stories = [
-		{
+	{
 			'caption': '',
 			'video': '',
-			'thumb': '',
+			'thumb': '' ,
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
+			'thumb': '' ,
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
+			'thumb': '' ,
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
+			'thumb': '' ,
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
+			'thumb': '' ,
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
-			'timecode': 12
-		},
-		// Page two stories
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '',
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '',
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '',
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '',
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '',
-			'timecode': 12
-		},
-		{
-			'caption': '',
-			'video': '',
-			'thumb': '',
+			'thumb': '' ,
 			'timecode': 12
 		},
 	];
@@ -126,18 +89,18 @@
 			else {
 				var video = $('#video-' + i);
 				//video.attr('poster', 'assets/' + stories[index].thumb);
-				$('#video-' + i + ' source').attr('src', 'stories/' + stories[index].video + '#t=' + stories[index].timecode);
-				//video[0].load();
+				$('#video-' + i + ' source').attr('src', 'stories/' + stories[index].video + '.mp4');
+				$('#video-' + i).attr('poster', 'assets/commercials/' + stories[index].video + '.jpg');
+				video[0].load();
 				$('.video-' + i + ' h3').text(stories[index].caption);
 
 				video.on('click', function(e) {
-					var vid = video[0];
+					var vid = $(this)[0];
 					enterFullscreen(vid);
 				});
 
 				$(document).on('click', function(e) {
-					var vid = video[0];
-					exitFullscreen(vid);
+					exitFullscreen();
 				});
 			}
 		}
@@ -156,14 +119,19 @@
 	  }
   }
 
-	function exitFullscreen(videoElement) {
+	function exitFullscreen() {
     var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
         (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
         (document.msFullscreenElement && document.msFullscreenElement !== null);
 
     if (isInFullScreen){
-    	videoElement.pause();
+    	$('video').each(function(index) {
+    		$(this).get(0).pause();
+    		$('source', this).attr('src', 'commercials/' + commercials[index].video + '.mp4');
+				$(this).attr('poster', 'assets/commercials/' + commercials[index].video + '.jpg');
+				$(this).get(0).load();
+    	});
       if (document.exitFullscreen) {
         document.exitFullscreen();
       } else if (document.webkitExitFullscreen) {

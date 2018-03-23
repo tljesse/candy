@@ -3,6 +3,13 @@
 /stories
 /photos
 /content-arrays
+/brightauthor
+/assets/commercials
+
+main-bg.jpg
+photo-bg.jpg
+stories-bg.jpg
+commercials-bg.jpg
 
 *.xml
 *.bwc

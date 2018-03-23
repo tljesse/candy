@@ -1,3 +1,6 @@
+@font-face {
+  font-family: Gotham;
+  src: url("../assets/fonts/GothamBook.ttf"); }
 html, body {
   height: 100%;
   margin: 0;
@@ -16,9 +19,7 @@ html, body {
   .content .home-button {
     position: absolute;
     bottom: 50px;
-    right: 50px;
-    border: 2px solid #231f20;
-    border-radius: 50%; }
+    right: 50px; }
 
 .inner-content {
   opacity: 1;
@@ -69,12 +70,11 @@ html, body {
 .arrow {
   position: absolute;
   top: 50%;
-  width: 5vmin;
-  height: 5vmin;
+  width: 6vmin;
+  height: 6vmin;
   background: transparent;
-  border-top: 0.5vmin solid black;
-  border-right: 0.5vmin solid black;
-  box-shadow: 0 0 0 black;
+  border-top: 0.2vmin solid white;
+  border-right: 0.2vmin solid white;
   transition: all 200ms ease; }
   .arrow.left {
     left: 2em;
@@ -82,9 +82,6 @@ html, body {
   .arrow.right {
     right: 2em;
     transform: translate3d(0, -50%, 0) rotate(45deg); }
-  .arrow:hover {
-    border-color: orange;
-    box-shadow: 0.5vmin -0.5vmin 0 white; }
   .arrow:before {
     content: '';
     position: absolute;
@@ -94,20 +91,47 @@ html, body {
     width: 200%;
     height: 200%; }
 
+* {
+  font-family: 'Gotham'; }
+
+.index-container {
+  background-image: url("../assets/main-bg.jpg");
+  height: 100vh; }
+  .index-container .index-inner {
+    padding: 100px 0 0 235px;
+    height: 926px; }
+
+.inner-content h3 {
+  font-size: 19px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: white; }
+
+.commercials-full {
+  background: url("../assets/commercials-bg.jpg"); }
+
+.stories-full {
+  background: url("../assets/stories-bg.jpg"); }
+
+.photos-full {
+  background: black;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center; }
+
 .stories-container, .commercials-container {
   width: 100%;
-  height: 80vh; }
+  height: 62vh;
+  margin: 280px 70px; }
   .stories-container h1, .commercials-container h1 {
     text-transform: uppercase; }
 
-.commercials-container .video-js .vjs-big-play-button {
-  top: 67.5px;
-  left: 130px; }
+video {
+  border: 2px solid white; }
 
 .hover-box {
-  width: 500px;
-  height: 250px;
-  border: 1px solid black; }
+  width: 435px;
+  height: 240px; }
 
 .fade-out {
   opacity: 0; }

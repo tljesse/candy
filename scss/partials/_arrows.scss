@@ -1,12 +1,11 @@
 .arrow {
 	position: absolute;
 	top: 50%;
-	width: 5vmin;
-	height: 5vmin;
+	width: 6vmin;
+	height: 6vmin;
 	background: transparent;
-	border-top: 0.5vmin solid black;
-	border-right: 0.5vmin solid black;
-	box-shadow: 0 0 0 black;
+	border-top: 0.2vmin solid white;
+	border-right: 0.2vmin solid white;
 	transition: all 200ms ease;
 	
 	&.left {
@@ -19,10 +18,6 @@
 		transform: translate3d(0,-50%,0) rotate(45deg);
 	}
 	
-	&:hover {
-		border-color: orange;
-		box-shadow: 0.5vmin -0.5vmin 0 white;
-	}
 	
 	&:before { // for better hit area
 		content: '';
