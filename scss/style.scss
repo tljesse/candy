@@ -22,6 +22,7 @@
 		letter-spacing: 1px;
 		text-transform: uppercase;
 		color: white;
+		max-width: 410px;
 	}
 }
 
@@ -34,13 +35,14 @@
 }
 
 .photos-full {
-	background: black;
+	background: url('../assets/photos-bg.jpg');
+	//background: black;
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center;
 }
 
-.stories-container, .commercials-container {
+.stories-container, .commercials-container, .photos-container {
 	width: 100%;
 	height: 62vh;
 	margin: 280px 70px;
@@ -50,7 +52,36 @@
 	}
 }
 
-video {
+.photos-container {
+	transition: 1s;
+	.inner-content {
+		div {
+			width: 410px;
+			min-height: 250px;
+			max-height: auto;
+			background-repeat: no-repeat;
+			background-size: cover;
+
+			img {
+				height: 250px;
+				width: auto;
+				max-width: 410px;
+			}
+		}
+	}
+}
+
+.fullscreen-container {
+	width: 100%;
+	height: 100vh;
+	display: none;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: center;
+	transition: 1s;
+}
+
+video, .photo {
 	border: 2px solid white;
 }
 

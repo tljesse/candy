@@ -42,40 +42,40 @@
 	});
 
 	var stories = [
-	{
+		{
 			'caption': '',
 			'video': '',
-			'thumb': '' ,
+			'thumb': '',
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '' ,
+			'thumb': '',
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '' ,
+			'thumb': '',
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '' ,
+			'thumb': '',
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '' ,
+			'thumb': '',
 			'timecode': 12
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '' ,
+			'thumb': '',
 			'timecode': 12
 		},
 	];
@@ -88,38 +88,61 @@
 				$('.video-' + i).css('display', 'none');
 			else {
 				var video = $('#video-' + i);
+				video.unbind('click');
 				//video.attr('poster', 'assets/' + stories[index].thumb);
 				$('#video-' + i + ' source').attr('src', 'stories/' + stories[index].video + '.mp4');
-				$('#video-' + i).attr('poster', 'assets/commercials/' + stories[index].video + '.jpg');
+				$('#video-' + i).attr('poster', 'assets/stories/' + stories[index].video + '.jpg');
 				video[0].load();
 				$('.video-' + i + ' h3').text(stories[index].caption);
 
 				video.on('click', function(e) {
 					var vid = $(this)[0];
-					enterFullscreen(vid);
-				});
-
-				$(document).on('click', function(e) {
-					exitFullscreen();
+					enterFullscreen($(this));
 				});
 			}
 		}
 	}
 
 	function enterFullscreen(videoElement) {
-    if (!document.mozFullScreen && !document.webkitFullScreen) {
-	  	videoElement.play();
-	    if (videoElement.requestFullscreen){
-	    	videoElement.requestFullscreen()
-	    } else if (videoElement.mozRequestFullScreen) {
-	      videoElement.mozRequestFullScreen();
-	    } else if (videoElement.webkitRequestFullscreen) {
-	      videoElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
+		var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
+        (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
+        (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
+        (document.msFullscreenElement && document.msFullscreenElement !== null);
+
+    if (!isInFullScreen) {
+    	videoElement.attr('controls', '');
+	  	videoElement.get(0).play();
+	    if (videoElement.get(0).requestFullscreen){
+	    	videoElement.get(0).requestFullscreen()
+	    } else if (videoElement.get(0).mozRequestFullScreen) {
+	      videoElement.get(0).mozRequestFullScreen();
+	    } else if (videoElement.get(0).webkitRequestFullscreen) {
+	      videoElement.get(0).webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
 	    }
+	  } else {
+	  	videoElement.removeAttr('controls');
+	  	$('video').each(function(index) {
+    		$(this).get(0).pause();
+    		$('source', this).attr('src', 'stories/' + stories[index].video + '.mp4');
+				$(this).attr('poster', 'assets/stories/' + stories[index].video + '.jpg');
+				$(this).get(0).load();
+    	});
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
 	  }
   }
 
-	function exitFullscreen() {
+  /*
+   * Legacy, this is built into other function
+   *
+  function exitFullscreen() {
     var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
         (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
@@ -128,8 +151,8 @@
     if (isInFullScreen){
     	$('video').each(function(index) {
     		$(this).get(0).pause();
-    		$('source', this).attr('src', 'commercials/' + commercials[index].video + '.mp4');
-				$(this).attr('poster', 'assets/commercials/' + commercials[index].video + '.jpg');
+    		$('source', this).attr('src', 'stories/' + stories[index].video + '.webm');
+				$(this).attr('poster', 'assets/stories/' + stories[index].video + '.jpg');
 				$(this).get(0).load();
     	});
       if (document.exitFullscreen) {
@@ -142,5 +165,5 @@
         document.msExitFullscreen();
       }
     }
-	}
+	}*/
 }(jQuery));

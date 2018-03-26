@@ -5,11 +5,12 @@
 /content-arrays
 /brightauthor
 /assets/commercials
+/assets/stories
 
 main-bg.jpg
-photo-bg.jpg
 stories-bg.jpg
 commercials-bg.jpg
+photos-bg.jpg
 
 *.xml
 *.bwc

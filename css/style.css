@@ -2,7 +2,8 @@
   font-family: Gotham;
   src: url("../assets/fonts/GothamBook.ttf"); }
 html, body {
-  height: 100%;
+  height: 1080px;
+  width: 1920px;
   margin: 0;
   overflow: hidden; }
 
@@ -20,6 +21,10 @@ html, body {
     position: absolute;
     bottom: 50px;
     right: 50px; }
+  .content .back-button {
+    position: absolute;
+    top: 50px;
+    left: 50px; }
 
 .inner-content {
   opacity: 1;
@@ -105,7 +110,8 @@ html, body {
   font-size: 19px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  color: white; }
+  color: white;
+  max-width: 410px; }
 
 .commercials-full {
   background: url("../assets/commercials-bg.jpg"); }
@@ -114,19 +120,41 @@ html, body {
   background: url("../assets/stories-bg.jpg"); }
 
 .photos-full {
-  background: black;
+  background: url("../assets/photos-bg.jpg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center; }
 
-.stories-container, .commercials-container {
+.stories-container, .commercials-container, .photos-container {
   width: 100%;
   height: 62vh;
   margin: 280px 70px; }
-  .stories-container h1, .commercials-container h1 {
+  .stories-container h1, .commercials-container h1, .photos-container h1 {
     text-transform: uppercase; }
 
-video {
+.photos-container {
+  transition: 1s; }
+  .photos-container .inner-content div {
+    width: 410px;
+    min-height: 250px;
+    max-height: auto;
+    background-repeat: no-repeat;
+    background-size: cover; }
+    .photos-container .inner-content div img {
+      height: 250px;
+      width: auto;
+      max-width: 410px; }
+
+.fullscreen-container {
+  width: 100%;
+  height: 100vh;
+  display: none;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  transition: 1s; }
+
+video, .photo {
   border: 2px solid white; }
 
 .hover-box {
