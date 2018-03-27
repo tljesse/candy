@@ -154,8 +154,12 @@ html, body {
   background-position: center;
   transition: 1s; }
 
-video:not(#video-full), .photo {
+video:not(#video-full), .photo, .commercials-container img, .stories-container img {
   border: 2px solid white; }
+
+video::-webkit-media-controls-panel {
+  display: flex !important;
+  opacity: 1 !important; }
 
 .hover-box {
   width: 435px;

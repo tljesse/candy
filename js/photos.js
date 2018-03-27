@@ -19,7 +19,7 @@
 
 		$('.arrow.right.page').on('click', function(e) {
 			$('.inner-content').addClass('fade-out');
-			page = page < photos.length/6 - 1 ? page + 1 : 0;
+			page = page < Math.floor(photos.length/6) - 1 ? page + 1 : 0;
 			//$('.photos-full').css('background-image', 'url("./photos/' + photos[index] + '")');
 			setTimeout(function() {
 				loadPhotos(page);
@@ -31,7 +31,7 @@
 
 		$('.arrow.left.page').on('click', function(e) {
 			$('.inner-content').addClass('fade-out');
-			page = page > 0 ? page - 1 : photos.length/6 - 1;
+			page = page > 0 ? page - 1 : Math.floor(photos.length/6) - 1;
 			//$('.photos-full').css('background-image', 'url("./photos/' + photos[index] + '")');
 			setTimeout(function() {
 				loadPhotos(page);
@@ -68,6 +68,8 @@
 	function loadPhotos(page) {
 		$('.photo').each(function(i) {
 			var index = page * 6 + i;
+			if (photos[index] == '') $(this).css('display', 'none');
+			else $(this).css('display', 'flex');
 			$(this).css('background-image', 'url("./photos/' + photos[index] + '")');
 
 			$(this).on('click', function() {

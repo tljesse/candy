@@ -49,38 +49,32 @@
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
-			'timecode': 12
+			'format': 'mp4'
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
-			'timecode': 12
+			'format': 'mp4'
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
-			'timecode': 12
+			'format': 'mp4'
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
-			'timecode': 12
+			'format': 'mp4'
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
-			'timecode': 12
+			'format': 'mp4'
 		},
 		{
 			'caption': '',
 			'video': '',
-			'thumb': '',
-			'timecode': 12
+			'format': 'mp4'
 		},
 	];
 
@@ -93,23 +87,46 @@
 			else {
 				var video = $('#video-' + i);
 				video.unbind('click');
-				//video.attr('poster', 'assets/' + stories[index].thumb);
-				$('#video-' + i + ' source').attr('src', 'stories/' + stories[index].video + '.mp4');
-				$('#video-' + i).attr('poster', 'assets/stories/' + stories[index].video + '.jpg');
-				video[0].load();
+				video.removeClass();
+
+				video.attr('src', 'assets/stories/' + stories[index].video + '.jpg');
+				video.addClass(stories[index].format);
+
 				$('.video-' + i + ' h3').text(stories[index].caption);
 
 				video.on('click', function(e) {
-					// var vid = $(this)[0];
-					// enterFullscreen($(this));
-					var vidSource = $('source', this).attr('src');
-					toggleVideo(vidSource);
+					var vidSource = $(this).attr('src');
+					vidSource = vidSource.substring(vidSource.lastIndexOf('/') + 1, vidSource.lastIndexOf('.'));
+					
+					var vidFormat = $(this).attr('class');
+					toggleVideo(vidSource, vidFormat);
 				});
 			}
 		}
 	}
 
-	function enterFullscreen(videoElement) {
+  function toggleVideo(videoSource, format) {
+  	if ($('.fullscreen-container').css('display') == 'none') {
+  		$('.fullscreen-container source').attr('type', 'video/' + format);
+	  	$('.fullscreen-container source').attr('src', 'stories/' + videoSource + '.' + format);
+			$('.fullscreen-container video').get(0).load();
+			$('.fullscreen-container video').get(0).play();
+			$('.stories-wrapper').css('display', 'none');
+			$('.stories-full').css('background', 'black');
+			$('.fullscreen-container').css('display', 'flex');
+		} else {
+			$('.fullscreen-container video').get(0).pause();
+			$('.fullscreen-container source').attr('src', '');
+			$('.stories-wrapper').css('display', 'flex');
+			$('.stories-full').css('background', '');
+			$('.fullscreen-container').css('display', 'none');
+		}
+  }
+
+  /*
+   * Legacy, this is built into other function
+   *
+  function enterFullscreen(videoElement) {
 		var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
         (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
@@ -144,27 +161,7 @@
       }
 	  }
   }
-
-  function toggleVideo(videoSource) {
-  	if ($('.fullscreen-container').css('display') == 'none') {
-  		var vidType = videoSource.substring(videoSource.lastIndexOf('.')).substring(1);
-  		$('.fullscreen-container source').attr('type', 'video/' + vidType);
-	  	$('.fullscreen-container source').attr('src', videoSource);
-			$('.fullscreen-container video').get(0).load();
-			$('.fullscreen-container video').get(0).play();
-			$('.stories-wrapper').css('display', 'none');
-			$('.fullscreen-container').css('display', 'flex');
-		} else {
-			$('.fullscreen-container video').get(0).pause();
-			$('.fullscreen-container source').attr('src', '');
-			$('.stories-wrapper').css('display', 'flex');
-			$('.fullscreen-container').css('display', 'none');
-		}
-  }
-
-  /*
-   * Legacy, this is built into other function
-   *
+  
   function exitFullscreen() {
     var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
