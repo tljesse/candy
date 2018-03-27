@@ -81,7 +81,7 @@
 	transition: 1s;
 }
 
-video, .photo {
+video:not(#video-full), .photo {
 	border: 2px solid white;
 }
 

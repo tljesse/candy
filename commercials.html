@@ -9,7 +9,7 @@
   <body>
     <div class="container-fluid content fade-in commercials-full">
 
-      <div class="d-flex flex-row justify-content-between flex-container" style="height: 100vh;">
+      <div class="d-flex flex-row justify-content-between flex-container commercials-wrapper" style="height: 100vh;">
         <div class="col-1 align-self-center justify-content-center">
           <a href="#" class="arrow left"></a>
         </div>
@@ -17,14 +17,14 @@
           <div class="d-flex flex-row justify-content-between inner-content">
             <div class="d-flex flex-column video-0">
               <video id="video-0" width="410" height="230">
-                <!--<source src="commercials/video.webm" type='video/webm'>-->
-                <source src="" type='video/mp4'>
+                <source src="commercials/video.webm" type='video/webm'>
+                <!-- <source src="" type='video/mp4'> -->
               </video>
               <h3>Caption</h3>
             </div>
             <div class="d-flex flex-column video-1">
               <video id="video-1" width="410" height="230">
-                <!--<source src="commercials/video.webm" type='video/webm'>-->
+                <!-- <source src="commercials/video.webm" type='video/webm'> -->
                 <source src="" type='video/mp4'>
               </video>
               <h3>Caption</h3>
@@ -60,6 +60,11 @@
         <div class="col-1 align-self-center">
           <a href="#" class="arrow right"></a>
         </div>
+      </div>
+      <div class="d-flex justify-content-center align-self-center fullscreen-container">
+        <video id="video-full" width="1920" height="1080" controls">
+          <source src="" type="video/webm">
+        </video>
       </div>
 
       <div class="home-button">
