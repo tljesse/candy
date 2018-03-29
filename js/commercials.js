@@ -4,6 +4,9 @@
 
 	$(document).ready(function() {
 		var content = $('.content');
+		var vid = $('.fullscreen-container video');
+		var mousetimeout;
+		var idletime = 120;
 
 		content.removeClass('fade-in');
 
@@ -14,14 +17,21 @@
 			}, 1200);
 		});
 
+		for (var i = 0; i < commercials.length/6; i++) {
+			$('.page-dots').append('<div class="dot ' + i + '"></div>');
+		}
+		$('.dot.0').addClass('active');
+
 		loadVideos(page);
 
 		$('.arrow.right').on('click', function(e) {
 			$('.inner-content').addClass('fade-out');
+			$('.dot.' + page).toggleClass('active');
 			page = (page < commercials.length/6 - 1) ? page+1 : 0;
 			
 			setTimeout(function() {
 				loadVideos(page);
+				$('.dot.' + page).toggleClass('active');
 			}, 1000);
 			setTimeout(function() {
 				$('.inner-content').removeClass('fade-out');
@@ -30,18 +40,89 @@
 
 		$('.arrow.left').on('click', function(e) {
 			$('.inner-content').addClass('fade-out');
+			$('.dot.' + page).toggleClass('active');
 			page = (page > 0) ? page-1 : commercials.length/6 - 1;
 
 			setTimeout(function() {
 				loadVideos(page);
+				$('.dot.' + page).toggleClass('active');
 			}, 1000);
 			setTimeout(function() {
 				$('.inner-content').removeClass('fade-out');
 			}, 1500);
 		});
 
-		$('.fullscreen-container video').on('click', function() {
+		vid.on('click', function() {
 			toggleVideo('');
+		});
+
+		vid.on('ended', function() {
+			toggleVideo('');
+		});
+
+		// Custom vid controls
+		$('.btnPlay').on('click', function() {
+		    if(vid[0].paused) {
+		        vid[0].play();
+		    }
+		    else {
+		        vid[0].pause();
+		    }
+		    return false;
+		});
+
+		vid.on('timeupdate', function() {
+	    var currentPos = vid[0].currentTime;
+	    var maxduration = vid[0].duration;
+	    var percentage = 100 * currentPos / maxduration;
+	    $('.timeBar').css('width', percentage+'%');
+		});
+
+		var timeDrag = false;   /* Drag status */
+		$('.progress-bar').mousedown(function(e) {
+	    timeDrag = true;
+	    updatebar(e.pageX);
+		});
+		$(document).mouseup(function(e) {
+		    if(timeDrag) {
+		        timeDrag = false;
+		        updatebar(e.pageX);
+		    }
+		});
+		$(document).mousemove(function(e) {
+		    if(timeDrag) {
+		        updatebar(e.pageX);
+		    }
+		});
+		 
+		//update Progress Bar control
+		var updatebar = function(x) {
+	    var progress = $('.progress-bar');
+	    var maxduration = vid[0].duration;
+	    var position = x - progress.offset().left;
+	    var percentage = 100 * position / progress.width();
+	 
+	    //Check within range
+	    if(percentage > 100) {
+        percentage = 100;
+	    }
+	    if(percentage < 0) {
+        percentage = 0;
+	    }
+	 
+	    //Update progress bar and video currenttime
+	    $('.timeBar').css('width', percentage+'%');
+	    vid[0].currentTime = maxduration * percentage / 100;
+		};
+
+		// Screensaver
+		$(document).mousemove(function(){
+	    clearTimeout(mousetimeout);
+
+	    mousetimeout = setTimeout(function(){
+	    	$('.control').css('display', 'none');
+        toggleVideo('screensaver/Screensaver', 'mp4');
+	    }, 1000 * idletime); // 5 secs			
 		});
 		
 	});
@@ -101,7 +182,8 @@
 					
 					var vidFormat = $(this).attr('class');
 
-					toggleVideo(vidSource, vidFormat);
+					$('.control').css('display', 'block');
+					toggleVideo('commercials/' + vidSource, vidFormat);
 				});				
 			}
 		}
@@ -110,16 +192,18 @@
   function toggleVideo(videoSource, format) {
   	if ($('.fullscreen-container').css('display') == 'none') {
   		$('.fullscreen-container source').attr('type', 'video/' + format);
-	  	$('.fullscreen-container source').attr('src', 'commercials/' + videoSource + '.' + format);
+	  	$('.fullscreen-container source').attr('src', videoSource + '.' + format);
 			$('.fullscreen-container video').get(0).load();
 			$('.fullscreen-container video').get(0).play();
 			$('.commercials-wrapper').css('display', 'none');
+			$('.page-dots').css('display', 'none');
 			$('.commercials-full').css('background', 'black');
 			$('.fullscreen-container').css('display', 'flex');
 		} else {
 			$('.fullscreen-container video').get(0).pause();
 			$('.fullscreen-container source').attr('src', '');
 			$('.commercials-wrapper').css('display', 'flex');
+			$('.page-dots').css('display', 'flex');
 			$('.commercials-full').css('background', '');
 			$('.fullscreen-container').css('display', 'none');
 		}
