@@ -7,7 +7,7 @@
 
 	$(document).ready(function() {
 		var content = $('.content');
-		var vid = $('.fullscreen-container video');
+		var vid = $('.fullscreen-container video');	
 
 		content.removeClass('fade-in');
 		mousetimeout = setTimeout(function(){
@@ -21,17 +21,17 @@
 			}, 1200);
 		});
 
-		for (var i = 0; i < commercials.length/6; i++) {
-			$('.page-dots').append('<div class="dot ' + i + '"></div>');
-		}
-		$('.dot.0').addClass('active');
+		// for (var i = 0; i < advisory.length/6; i++) {
+		// 	$('.page-dots').append('<div class="dot ' + i + '"></div>');
+		// }
+		// $('.dot.0').addClass('active');
 
 		loadVideos(page);
 
 		$('.arrow.right').on('click', function(e) {
 			$('.inner-content').addClass('fade-out');
 			$('.dot.' + page).toggleClass('active');
-			page = (page < commercials.length/6 - 1) ? page+1 : 0;
+			page = (page < advisory.length/6 - 1) ? page+1 : 0;
 			
 			setTimeout(function() {
 				loadVideos(page);
@@ -45,7 +45,7 @@
 		$('.arrow.left').on('click', function(e) {
 			$('.inner-content').addClass('fade-out');
 			$('.dot.' + page).toggleClass('active');
-			page = (page > 0) ? page-1 : commercials.length/6 - 1;
+			page = (page > 0) ? page-1 : advisory.length/6 - 1;
 
 			setTimeout(function() {
 				loadVideos(page);
@@ -97,7 +97,7 @@
 		        updatebar(e.pageX);
 		    }
 		});
-		$(document).mousemove(function(e) {
+		$(document).click(function(e) {
 		    if(timeDrag) {
 		        updatebar(e.pageX);
 		    }
@@ -123,14 +123,21 @@
 	    vid[0].currentTime = maxduration * percentage / 100;
 		};
 
-		// Screensaver
-		$(document).click(function(){
-	    runScreensaver();	
+		$('.back-button').on('click', function() {
+			$('.content').addClass('fade-out');
+			setTimeout(function() {
+				window.location.href = './stories.html';
+			}, 1200);
 		});
-		
+
+		// Screensaver
+		$(document).mousemove(function(){
+	    runScreensaver();
+		});
+
 	});
 
-	var commercials = [
+	var advisory = [
 		{
 			'caption': '',
 			'video': '',
@@ -167,47 +174,56 @@
 		for (var i = 0; i < 6; i++) { 
 			var index = page * 6 + i;
 			$('.video-' + i).css('display', 'flex')
-			if (commercials[index].caption == '')
+			if (advisory[index].caption == '')
 				$('.video-' + i).css('display', 'none');
 			else {
 				var video = $('#video-' + i);
 				video.unbind('click');
 				video.removeClass();
 
-				video.attr('src', 'assets/commercials/' + commercials[index].video + '.jpg');
-				video.addClass(commercials[index].format);
+				video.attr('src', 'assets/advisory/' + advisory[index].video + '.jpg');
+				video.addClass(advisory[index].format);
 
-				$('.video-' + i + ' h3').text(commercials[index].caption);
+				$('.video-' + i + ' h3').text(advisory[index].caption);
 
 				video.on('click', function(e) {
+					clearTimeout(mousetimeout);
+					vidActive = true;
 					var vidSource = $(this).attr('src');
 					vidSource = vidSource.substring(vidSource.lastIndexOf('/') + 1, vidSource.lastIndexOf('.'));
 					
 					var vidFormat = $(this).attr('class');
 
 					$('.control').css('display', 'block');
-					toggleVideo('commercials/' + vidSource, vidFormat);
-				});				
+					toggleVideo('advisory/' + vidSource, vidFormat);
+				});
 			}
 		}
 	}
 
   function toggleVideo(videoSource, format) {
+  	if (format == 'page') {
+			$('.content').addClass('fade-out');
+			setTimeout(function() {
+				window.location.href = './advisory.html';
+			}, 1200);
+  		return;
+  	}
   	if ($('.fullscreen-container').css('display') == 'none') {
   		$('.fullscreen-container source').attr('type', 'video/' + format);
 	  	$('.fullscreen-container source').attr('src', videoSource + '.' + format);
 			$('.fullscreen-container video').get(0).load();
 			$('.fullscreen-container video').get(0).play();
-			$('.commercials-wrapper').css('display', 'none');
+			$('.advisory-wrapper').css('display', 'none');
 			$('.page-dots').css('display', 'none');
-			$('.commercials-full').css('background', 'black');
+			$('.advisory-full').css('background', 'black');
 			$('.fullscreen-container').css('display', 'flex');
 		} else {
 			$('.fullscreen-container video').get(0).pause();
 			$('.fullscreen-container source').attr('src', '');
-			$('.commercials-wrapper').css('display', 'flex');
+			$('.advisory-wrapper').css('display', 'flex');
 			$('.page-dots').css('display', 'flex');
-			$('.commercials-full').css('background', '');
+			$('.advisory-full').css('background', '');
 			$('.fullscreen-container').css('display', 'none');
 		}
   }
@@ -226,7 +242,7 @@
   /*
    * Legacy, this is built into other function
    *
-	function enterFullscreen(videoElement) {
+  function enterFullscreen(videoElement) {
 		var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
         (document.mozFullScreenElement && document.mozFullScreenElement !== null) ||
@@ -244,14 +260,10 @@
 	    }
 	  } else {
 	  	videoElement.removeAttr('controls');
-	  	$('video').each(function(i) {
-	  		var index = page * 6 + i;
+	  	$('video').each(function(index) {
     		$(this).get(0).pause();
-    		if (index < 1)
-    			$('source', this).attr('src', 'commercials/' + commercials[index].video + '.webm');
-    		else
-    			$('source', this).attr('src', 'commercials/' + commercials[index].video + '.mp4');
-				$(this).attr('poster', 'assets/commercials/' + commercials[index].video + '.jpg');
+    		$('source', this).attr('src', 'advisory/' + advisory[index].video + '.mp4');
+				$(this).attr('poster', 'assets/advisory/' + advisory[index].video + '.jpg');
 				$(this).get(0).load();
     	});
       if (document.exitFullscreen) {
@@ -265,7 +277,7 @@
       }
 	  }
   }
-
+  
   function exitFullscreen() {
     var isInFullScreen = (document.fullscreenElement && document.fullscreenElement !== null) ||
         (document.webkitFullscreenElement && document.webkitFullscreenElement !== null) ||
@@ -275,8 +287,8 @@
     if (isInFullScreen){
     	$('video').each(function(index) {
     		$(this).get(0).pause();
-    		$('source', this).attr('src', 'commercials/' + commercials[index].video + '.webm');
-				$(this).attr('poster', 'assets/commercials/' + commercials[index].video + '.jpg');
+    		$('source', this).attr('src', 'advisory/' + advisory[index].video + '.webm');
+				$(this).attr('poster', 'assets/advisory/' + advisory[index].video + '.jpg');
 				$(this).get(0).load();
     	});
       if (document.exitFullscreen) {

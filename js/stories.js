@@ -1,14 +1,18 @@
 (function($) {
 	'use strict';
 	var page = 0;
+	var vidActive = false;
+	var mousetimeout;
+	var idletime = 120;
 
 	$(document).ready(function() {
 		var content = $('.content');
-		var vid = $('.fullscreen-container video');
-		var mousetimeout;
-		var idletime = 120;
+		var vid = $('.fullscreen-container video');	
 
 		content.removeClass('fade-in');
+		mousetimeout = setTimeout(function(){
+      toggleVideo('screensaver/Screensaver', 'mp4');
+    }, 1000 * idletime);
 
 		$('.home-button').on('click', function() {
 			content.addClass('fade-out');
@@ -53,11 +57,15 @@
 		});
 
 		vid.on('click', function() {
+			vidActive = false;
 			toggleVideo('');
-		})
+			runScreensaver();
+		});
 
 		vid.on('ended', function() {
+			vidActive = false;
 			toggleVideo('');
+			runScreensaver();
 		});
 
 		// Custom vid controls
@@ -89,7 +97,7 @@
 		        updatebar(e.pageX);
 		    }
 		});
-		$(document).mousemove(function(e) {
+		$(document).click(function(e) {
 		    if(timeDrag) {
 		        updatebar(e.pageX);
 		    }
@@ -117,12 +125,7 @@
 
 		// Screensaver
 		$(document).mousemove(function(){
-	    clearTimeout(mousetimeout);
-
-	    mousetimeout = setTimeout(function(){
-	    	$('.control').css('display', 'none');
-        toggleVideo('screensaver/Screensaver', 'mp4');
-	    }, 1000 * idletime); // 5 secs			
+	    runScreensaver();
 		});
 
 	});
@@ -177,6 +180,8 @@
 				$('.video-' + i + ' h3').text(stories[index].caption);
 
 				video.on('click', function(e) {
+					clearTimeout(mousetimeout);
+					vidActive = true;
 					var vidSource = $(this).attr('src');
 					vidSource = vidSource.substring(vidSource.lastIndexOf('/') + 1, vidSource.lastIndexOf('.'));
 					
@@ -190,6 +195,13 @@
 	}
 
   function toggleVideo(videoSource, format) {
+  	if (format == 'page') {
+			$('.content').addClass('fade-out');
+			setTimeout(function() {
+				window.location.href = './advisory.html';
+			}, 1200);
+  		return;
+  	}
   	if ($('.fullscreen-container').css('display') == 'none') {
   		$('.fullscreen-container source').attr('type', 'video/' + format);
 	  	$('.fullscreen-container source').attr('src', videoSource + '.' + format);
@@ -207,6 +219,17 @@
 			$('.stories-full').css('background', '');
 			$('.fullscreen-container').css('display', 'none');
 		}
+  }
+
+  function runScreensaver() {
+  	clearTimeout(mousetimeout);
+
+    if (!vidActive) {
+	    mousetimeout = setTimeout(function(){
+	    	$('.control').css('display', 'none');
+        toggleVideo('screensaver/Screensaver', 'mp4');
+	    }, 1000 * idletime);
+    }	
   }
 
   /*

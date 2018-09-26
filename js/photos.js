@@ -9,6 +9,10 @@
 		var idletime = 120;
 
 		content.removeClass('fade-in');
+		$('.fullscreen-container video').css('display', 'none');
+		mousetimeout = setTimeout(function(){
+      toggleVideo('screensaver/Screensaver', 'mp4');
+    }, 1000 * idletime);
 
 		$('.home-button').on('click', function() {
 			content.addClass('fade-out');
@@ -55,12 +59,14 @@
 
 		$('.arrow.right.item').on('click', function(e) {
 			largeIndex = largeIndex < photos.length - 1 ? largeIndex + 1 : 0;
+			while (photos[largeIndex] == '') largeIndex = largeIndex < photos.length - 1 ? largeIndex + 1 : 0;
 			//$('.photos-full').css('background-image', 'url("./photos/' + photos[index] + '")');
 			$('.fullscreen-container').css('background-image', 'url("./photos/' + photos[largeIndex] + '")');
 		});
 
 		$('.arrow.left.item').on('click', function(e) {
 			largeIndex = largeIndex > 0 ? largeIndex - 1 : photos.length - 1;
+			while (photos[largeIndex] == '') largeIndex = largeIndex > 0 ? largeIndex - 1 : photos.length - 1;
 			//$('.photos-full').css('background-image', 'url("./photos/' + photos[index] + '")');
 			$('.fullscreen-container').css('background-image', 'url("./photos/' + photos[largeIndex] + '")');
 		});
@@ -77,7 +83,7 @@
 			toggleVideo('');
 		});
 
-		$(document).mousemove(function(){
+		$(document).click(function(){
 	    clearTimeout(mousetimeout);
 
 	    mousetimeout = setTimeout(function(){

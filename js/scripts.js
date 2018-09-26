@@ -8,6 +8,9 @@
 		var idletime = 120;
 
 		content.removeClass('fade-in');
+		mousetimeout = setTimeout(function(){
+      toggleVideo('screensaver/Screensaver', 'mp4');
+    }, 1000 * idletime);
 
 		$('.commercials').on('click', function() {
 			content.addClass('fade-out');
@@ -35,7 +38,7 @@
 		});
 
 		// Screensaver
-		$(document).mousemove(function(){
+		$(document).click(function(){
 	    clearTimeout(mousetimeout);
 
 	    mousetimeout = setTimeout(function(){

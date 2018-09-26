@@ -19,6 +19,11 @@ html, body {
   transition: 1s; }
   .content .home-button {
     position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
     bottom: 50px;
     right: 50px; }
   .content .back-button {
@@ -78,14 +83,14 @@ html, body {
   width: 6vmin;
   height: 6vmin;
   background: transparent;
-  border-top: 0.2vmin solid white;
-  border-right: 0.2vmin solid white;
+  border-top: 0.4vmin solid white;
+  border-right: 0.4vmin solid white;
   transition: all 200ms ease; }
   .arrow.left {
-    left: 2em;
+    left: 4em;
     transform: translate3d(0, -50%, 0) rotate(-135deg); }
   .arrow.right {
-    right: 2em;
+    right: 4em;
     transform: translate3d(0, -50%, 0) rotate(45deg); }
   .arrow:before {
     content: '';
@@ -111,7 +116,8 @@ html, body {
   letter-spacing: 1px;
   text-transform: uppercase;
   color: white;
-  max-width: 410px; }
+  max-width: 410px;
+  line-height: 1.1; }
 
 .commercials-full {
   background: url("../assets/commercials-bg.jpg"); }
@@ -125,11 +131,14 @@ html, body {
   background-repeat: no-repeat;
   background-position: center; }
 
-.stories-container, .commercials-container, .photos-container {
+.advisory-full {
+  background: url("../assets/advisory-bg.jpg"); }
+
+.stories-container, .commercials-container, .photos-container, .advisory-container {
   width: 100%;
   height: 62vh;
   margin: 280px 70px; }
-  .stories-container h1, .commercials-container h1, .photos-container h1 {
+  .stories-container h1, .commercials-container h1, .photos-container h1, .advisory-container h1 {
     text-transform: uppercase; }
 
 .photos-container {
@@ -172,23 +181,36 @@ html, body {
   background-position: center;
   transition: 1s; }
 
-video:not(#video-full), .photo, .commercials-container img, .stories-container img {
+video:not(#video-full), .photo, .commercials-container img, .stories-container img, .advisory-container img {
   border: 2px solid white; }
+
+.index-container .photo {
+  border: none;
+}
 
 .control {
   width: 1200px;
   position: absolute;
   bottom: 10px;
   left: 360px;
-  height: 100px; }
+  height: 100px;
+  z-index: 1000; }
+  .control .btmControl {
+    height: 100%;
+    display: block; }
   .control .progress-bar {
     position: relative;
+    display: block;
     width: 100%;
     height: 10px;
     top: 50px;
     background-color: #f9f9f9; }
+    .control .progress-bar .progress {
+      display: block;
+      height: 100%; }
   .control .timeBar {
     position: absolute;
+    display: block;
     top: 0;
     left: 0;
     width: 0;
